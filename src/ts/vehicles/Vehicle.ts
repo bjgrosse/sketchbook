@@ -7,8 +7,12 @@ import * as Utils from "../core/FunctionLibrary";
 import { CollisionGroups } from "../enums/CollisionGroups";
 import { EntityType } from "../enums/EntityType";
 import { IWorldEntity } from "../interfaces/IWorldEntity";
+import { IInputReceiver } from "../interfaces/IInputReceiver";
 
-export abstract class Vehicle extends THREE.Object3D implements IWorldEntity {
+export abstract class Vehicle
+  extends THREE.Object3D
+  implements IWorldEntity, IInputReceiver
+{
   public updateOrder: number = 2;
   public abstract entityType: EntityType;
 
@@ -281,5 +285,18 @@ export abstract class Vehicle extends THREE.Object3D implements IWorldEntity {
         wheel.wheelObject.quaternion.copy(worldQuat);
       }
     }
+  }
+
+  // Required methods for IInputReceiver interface
+  public abstract inputReceiverInit(): void;
+  public abstract inputReceiverUpdate(timeStep: number): void;
+
+  // Default implementation for handleMouseButton
+  public handleMouseButton(
+    event: MouseEvent,
+    code: string,
+    pressed: boolean
+  ): void {
+    // Default implementation does nothing
   }
 }
